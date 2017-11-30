@@ -166,12 +166,12 @@ void USART1_IRQHandler(void) {
 // BSP functions =============================================================
 void BSP::init(void) {
     // NOTE:
-    // The global interrupt disable code prevents interrutps from firing
+    // The global interrupt disable code prevents interrupts from firing
     // prematurely until QF_onStartup(), when QF is fully initialized.
     // Unfortunately, the STM32Cube code that must be called from here,
-    // configures and starts interrutps (such as SysTick).
+    // configures and starts interrupts (such as SysTick).
     //
-    QF_PRIMASK_DISABLE(); // globally disable interrupts until QF::onStart()
+    QF_INT_DISABLE(); // globally disable interrupts until QF::onStart()
 
     RCC_OscInitTypeDef RCC_OscInitStruct;
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
