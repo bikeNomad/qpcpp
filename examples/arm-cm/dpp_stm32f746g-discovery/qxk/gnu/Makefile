@@ -148,7 +148,7 @@ QS_SRCS := \
 	qs_fp.cpp
 
 LIB_DIRS  :=
-LIBS      :=
+LIBS      := -lc 
 
 # defines
 DEFINES   := -DSTM32F746xx
@@ -169,19 +169,19 @@ FLOAT_ABI := -mfloat-abi=softfp
 # see http://gnutoolchains.com/arm-eabi/
 #
 ifeq ($(GNU_ARM),)
-GNU_ARM := $(QTOOLS)/gnu_arm-eabi
+GNU_ARM := $(QTOOLS)/gnu_arm-eabi/bin/arm-eabi-
 endif
 
 # make sure that the GNU-ARM toolset exists...
-ifeq ("$(wildcard $(GNU_ARM))","")
+ifeq ("$(wildcard $(GNU_ARM)*)","")
 $(error GNU_ARM toolset not found. Please adjust the Makefile)
 endif
 
-CC    := $(GNU_ARM)/bin/arm-eabi-gcc
-CPP   := $(GNU_ARM)/bin/arm-eabi-g++
-AS    := $(GNU_ARM)/bin/arm-eabi-as
-LINK  := $(GNU_ARM)/bin/arm-eabi-g++
-BIN   := $(GNU_ARM)/bin/arm-eabi-objcopy
+CC    := $(GNU_ARM)gcc
+CPP   := $(GNU_ARM)g++
+AS    := $(GNU_ARM)as
+LINK  := $(GNU_ARM)g++
+BIN   := $(GNU_ARM)objcopy
 
 ##############################################################################
 # Typically, you should not need to change anything below this line
@@ -259,7 +259,7 @@ endif # ......................................................................
 
 
 LINKFLAGS = -T$(LD_SCRIPT) $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) \
-	-mthumb -nostdlib \
+	-mthumb -nostdlib -specs=nano.specs \
 	-Wl,-Map,$(BIN_DIR)/$(OUTPUT).map,--cref,--gc-sections $(LIB_DIRS)
 
 
